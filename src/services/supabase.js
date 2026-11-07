@@ -1,7 +1,19 @@
-import { isSupabaseConfigured } from '../config/env.js'
+import { createClient } from '@supabase/supabase-js'
+import { appConfig, isSupabaseConfigured } from '../config/env.js'
 
-// Fase 0: apenas indica se a configuração existe. O cliente Supabase
-// (@supabase/supabase-js) será instalado e criado quando houver operações reais.
+export const supabase = isSupabaseConfigured
+  ? createClient(appConfig.supabaseUrl, appConfig.supabaseAnonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    })
+  : null
+
 export function getBackendStatus() {
-  return { configured: isSupabaseConfigured }
+  return {
+    configured: isSupabaseConfigured,
+    connected: Boolean(supabase),
+  }
 }

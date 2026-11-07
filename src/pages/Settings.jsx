@@ -9,6 +9,7 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle.js'
 export default function Settings() {
   useDocumentTitle('Definições')
   const { configured } = getBackendStatus()
+
   return (
     <>
       <PageHeader title="Definições" description="Configuração da aplicação e, mais tarde, da empresa." />
@@ -25,9 +26,9 @@ export default function Settings() {
             <div className="status-row">
               <span>
                 Cliente Supabase
-                <small>Será instalado quando existirem operações reais.</small>
+                <small>SDK instalado e cliente preparado quando configurado.</small>
               </span>
-              <Badge tone="neutral">Não instalado</Badge>
+              <Badge tone={configured ? 'success' : 'neutral'}>{configured ? 'Preparado' : 'A aguardar configuração'}</Badge>
             </div>
           </div>
         </Panel>
